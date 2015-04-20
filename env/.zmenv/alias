@@ -1,0 +1,58 @@
+#!/bin/bash
+
+##
+## General Aliases
+##
+
+alias l.='ls -al --color=auto'
+alias ls='ls --color=auto'
+alias ll='ls -alh --color=auto'
+
+alias mkdir='mkdir -p'
+alias svim='sudo vim'
+alias psgrep='ps aux | grep'
+alias gnr='grep -nr'
+
+alias meminfo='free -m -l -t'   # free memory
+alias psmem='ps auxf | sort -r -k 4'   # processes sorted by memory usage
+alias psmem10='ps auxf | sort -r -k 4 | head -10'  # 10 highest memory users
+alias pscpu='ps auxf | sort -r -k 3' # processes sorted by cpu usage
+alias pscpu10='ps auxf | sort -r -k 3 | head -10' # 10 highest cpu users
+
+alias ..='cd ..'
+alias .2='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+
+
+alias xclip='xclip -selection c'
+
+##
+## Arch Aliases
+##
+
+alias spac='sudo pacman'
+alias spaci='sudo pacman -S'
+
+##
+## Ubuntu Aliases
+##
+
+alias sapt='sudo apt-get'
+alias sapti='sudo apt-get install'
+alias sapts='sudo aptitude search'
+
+##
+## Function required
+##
+
+mk_and_cd() {
+	mkdir $1 && cd $1
+}
+alias mkcd='mk_and_cd'
+
+scons_err() {
+	scons $1 &> build_error.cerr || vim build_error.cerr
+}
+alias sconserr='scons_err'

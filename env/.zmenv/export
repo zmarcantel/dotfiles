@@ -1,0 +1,44 @@
+#!/bin/bash
+
+##
+## General
+##
+
+export EDITOR=vim
+
+
+##
+## Path
+##
+
+if [ -d ~/.local/bin ]; then
+    PATH=$PATH:~/.local/bin
+fi
+
+export PATH=$PATH:.:~/.zmenv/scripts/
+
+##
+## Work Exports
+##
+
+export EPOCH=~/coffee/src/lib/epochlabs
+
+
+##
+## Languages
+##
+
+# Go
+if hash go 2> /dev/null ; then
+  mkdir -p ~/go
+
+  if [ -e "/usr/local/go" ] ; then
+    export GOROOT=/usr/local/go
+  fi
+  if [ -e "/usr/lib/go" ] ; then
+    export GOROOT=/usr/lib/go
+  fi
+
+  export GOPATH=~/go
+  export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+fi

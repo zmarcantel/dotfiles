@@ -1,0 +1,35 @@
+#!/bin/zsh
+
+lock() {
+  /bin/lock
+}
+
+case "$1" in
+    lock)
+        lock
+        ;;
+    logout)
+        i3-msg exit
+        ;;
+    suspend)
+        #lock && systemctl suspend
+		lock && pm-suspend
+        ;;
+    hibernate)
+        #lock && systemctl hibernate
+		pm-hibernate 
+        ;;
+    reboot)
+        #systemctl reboot
+		reboot
+        ;;
+    shutdown)
+        #systemctl poweroff
+		shutdown
+        ;;
+    *)
+        echo "Usage: $0 {lock|logout|suspend|hibernate|reboot|shutdown}"
+        exit 2
+esac
+
+exit 0

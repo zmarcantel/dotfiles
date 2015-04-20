@@ -1,0 +1,113 @@
+function git_branch() {
+    branch=$(git symbolic-ref HEAD | cut -d'/' -f3)
+    echo $branch | sed 's/^[ \t]*//'
+}
+
+function format_branch() {
+    branch=$(git_branch)
+    echo "%{$fg_bold[yellow]%}"$branch"%{$reset_color%}"
+}
+
+function git_staged() {
+    count=$(git diff --cached --numstat | wc -l)
+    staged=$(echo $staged | sed 's/^[ \t]*//')
+    echo $count | sed 's/^[ \t]*//'
+}
+
+function format_staged() {
+    staged=$(git_staged)
+    if [ $staged -eq 0 ]; then
+        echo ""
+    else
+        echo "%{$fg_bold[green]%}●"$staged"%{$reset_color%}"
+    fi
+}
+
+function git_unstaged() {
+    count=$(git status --porcelain | grep " M" | wc -l)
+    echo $count | sed 's/^[ \t]*//'
+}
+
+function format_unstaged() {
+    unstaged=$(git_unstaged)
+    if [ $unstaged -eq 0 ]; then
+        echo ""
+    else
+        echo "%{$fg_bold[yellow]%}♦"$unstaged"%{$reset_color%}"
+    fi
+}
+
+function git_untracked() {
+    count=$(git status --porcelain | grep "??" | wc -l)
+    echo $count | sed 's/^[ \t]*//'
+}
+
+function format_untracked() {
+    untracked=$(git_untracked)
+    untracked=$(echo $untracked | sed 's/^[ \t]*//')
+    if [ $untracked -eq 0 ]; then
+        echo ""
+    else
+        echo "%{$fg_bold[red]%}\x2B"$untracked"%{$reset_color%}"
+    fi
+}
+
+function git_conflicts() {
+    count=$(git ls-files --unmerged | wc -l)
+    echo $count | sed 's/^[ \t]*//'
+}
+
+function format_conflicts() {
+    conflicts=$(git_conflicts)
+    if [ $conflicts -eq 0 ]; then
+        echo ""
+    else
+        echo "%{$fg_bold[red]%}✖"$conflicts"%{$reset_color%}"
+    fi
+}
+
+function git_status_raw() {
+    diff=$(git status -sb)
+    echo $diff
+}
+
+function format_diff() {
+    diff=$(git_status_raw)
+    behind=$(echo $diff | grep -oP "behind [0-9]+" | sed 's/behind //')
+    ahead=$(echo $diff | grep -oP "ahead [0-9]+" | sed 's/ahead //')
+
+    result=""
+
+    if [[ $behind -gt 0 ]]; then
+        result+="%{$fg_bold[red]%}↓"$behind"%{$reset_color%}"
+    fi
+    if [[ $ahead -gt 0 ]]; then
+       result+="%{$fg_bold[green]%}↑"$ahead"%{$reset_color%}"
+    fi
+
+    echo $result
+}
+
+function git_prompt() {
+    branch=$(format_branch)
+    staged=$(format_staged)
+    unstaged=$(format_unstaged)
+    untracked=$(format_untracked)
+    conflicts=$(format_conflicts)
+    diff=$(format_diff)
+
+    status_combined=$staged" "$unstaged" "$untracked" "$conflicts
+    status_trimmed=$(echo $status_combined | sed 's/ *$//' | sed 's/^[ \t]*//')
+
+    result="on "$branch
+
+    if [[ ! -z $diff ]]; then
+        result+=" ["$diff"]"
+    fi
+
+    if [[ ! -z $status_trimmed ]]; then
+        result+=" with ("$status_trimmed")"
+    fi
+
+    echo $result
+}
