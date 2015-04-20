@@ -34,9 +34,6 @@ function preexec() {
 # start with empty prompt
 PLAIN=""
 
-# return code of last command
-PLAIN+="%{$fg_bold[grey]%}[%?]%{$reset_color%} "
-
 # standard {user}{path}{time}
 PLAIN+="%{$fg_bold[red]%}%n%{$reset_color%} "
 PLAIN+="in"
@@ -52,9 +49,17 @@ PLAIN+="%{$fg_bold[green]%} %T %{$reset_color%}"
 RRPOMPT=""
 
 function precmd() {
-	PROMPT=""
+	RPROMPT=""
+    PROMPT=$PLAIN
 
-	# previous command run time
+    # do git stuff for the left prompt
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        PROMPT+=$(git_prompt)
+    fi
+    PROMPT+=" %{$fg_bold[white]%}λ %{$reset_color%}"
+
+	# previous command run details on right prompt
+    RIGHT=""
 	if [ $timer ]; then
     	timer_show=$(($SECONDS - $timer))
 		if [ $timer_show -lt 1 ]; then
@@ -62,21 +67,17 @@ function precmd() {
 		elif [ $timer_show -gt 60 ]; then
 			# show as {Xm Xs}
 			timer_show=$(( $timer_show / 60 ))"m "$(( $timer_show % 60 ))"s"
-			export PROMPT="%{$fg_bold[grey]%}{${timer_show}}%{$reset_color%}"
+			export RIGHT="%{$fg_bold[grey]%}{${timer_show}}%{$reset_color%}"
 		else
 			# show as {Xs}
-			export PROMPT="%{$fg_bold[grey]%}{${timer_show}s}%{$reset_color%}"
+			export RIGHT="%{$fg_bold[grey]%}{${timer_show}s}%{$reset_color%}"
 		fi
 		unset timer
 	fi
 
-    PROMPT+=$PLAIN
-
-    if git rev-parse --git-dir > /dev/null 2>&1; then
-        PROMPT+=$(git_prompt)
-    fi
-
-    PROMPT+=" %{$fg_bold[white]%}λ %{$reset_color%}"
+    # return code of last command
+    RPROMPT="%{$fg_bold[grey]%}[%?]%{$reset_color%} "
+    RPROMPT=$RIGHT
 }
 
 ##
