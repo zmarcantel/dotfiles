@@ -35,7 +35,7 @@ function preexec() {
 PLAIN=""
 
 # standard {user}{path}{time}
-PLAIN+="%{$fg_bold[red]%}%n%{$reset_color%} "
+PLAIN+="%{$fg_bold[red]%}%n%{$reset_color%}@%m "
 PLAIN+="in"
 PLAIN+="%{$fg_bold[cyan]%} %~ %{$reset_color%}"
 PLAIN+="at"
