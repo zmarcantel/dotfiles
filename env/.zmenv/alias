@@ -56,3 +56,18 @@ scons_err() {
 	scons $1 &> build_error.cerr || vim build_error.cerr
 }
 alias sconserr='scons_err'
+
+##
+## Git helpers
+##
+
+ghub_clone() {
+    git clone https://github.com/$1
+}
+alias ghclone='ghub_clone'
+
+alias gitco='git checkout'
+alias gitpom='git push origin master'
+alias mkbranch='git checkout -b'
+alias gitpull='git pull --rebase'
+alias gitcomm='git commit -m'
