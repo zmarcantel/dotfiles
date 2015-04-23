@@ -217,5 +217,5 @@ for_window [class="^Spotify$"] floating enable; border none; focus mode_toggle
 
 exec --no-startup-id i3-msg 'workspace 2; exec /usr/bin/hipchat'
 exec --no-startup-id i3-msg 'workspace 2; exec /usr/bin/thunderbird'
-exec --no-startup-id i3-msg 'workspace 4; exec /usr/bin/firefox'
+exec --no-startup-id i3-msg 'workspace 6; exec /usr/bin/firefox'
 
