@@ -28,6 +28,88 @@ alias .5='cd ../../../../..'
 
 alias xclip='xclip -selection c'
 
+alias sshadd='sshadd.sh'
+
+##
+## Work aliases
+##
+
+mc_ssh() {
+    ssh eltest@mc$1.lab.epochlabs.com
+}
+alias mcssh='mc_ssh'
+
+mc_scp_to() {
+    scp -r $1 eltest@mc$1.lab.epochlabs.com:$2
+}
+alias mccpy='mc_scp_to'
+
+reimage_mcs() {
+    if [[ ! :$PATH: == *:"$HOME/coffee/tools":* ]] ; then
+        export PATH=$PATH:$HOME/coffee/tools
+    fi
+
+    for i in "$@"; do
+        cof -h mc$i setimage
+        echo "Reimaging mc-$i..."
+        cof -h mc$i reimage 2>&1 > /dev/null
+    done
+
+    for i in "$@"; do
+        echo -n "Waiting for mc-$i to become ready..."
+        cof -h mc$i wait 2>&1 > /dev/null
+        echo " done!"
+    done
+}
+alias reimagemcs='reimage_mcs'
+
+reimage_mcs_with() {
+    if [[ ! :$PATH: == *:"$HOME/coffee/tools":* ]] ; then
+        export PATH=$PATH:$HOME/coffee/tools
+    fi
+
+    # get image number and shift it
+    local image=$1
+    shift
+
+    for i in "$@"; do
+        echo $image | cof -h mc$i setimage
+        echo "Reimaging mc-$i..."
+        cof -h mc$i reimage 2>&1 > /dev/null
+    done
+
+    for i in "$@"; do
+        echo -n "Waiting for mc-$i to become ready..."
+        cof -h mc$i wait 2>&1 > /dev/null
+        echo " done!"
+    done
+}
+alias reimagemcswith='reimage_mcs_with'
+
+mckill_func() {
+    local ip=$1
+    shift
+
+    for prog in "$@"; do
+        parallel-ssh -H 10.30.2.$ip -l eltest "sudo pkill -f $prog"
+    done
+}
+alias mckill='mckill_func'
+
+mckillon_func() {
+    local start=$1
+    local end=$2
+    shift; shift
+
+    for i in `seq $start $end`; do
+        for prog in "$@"; do
+            parallel-ssh -H 10.30.2.$i -l eltest "sudo pkill -f $prog"
+        done
+    done
+}
+alias mckillon='mckillon_func'
+
+
 ##
 ## Arch Aliases
 ##
@@ -71,3 +153,4 @@ alias gitpom='git push origin master'
 alias mkbranch='git checkout -b'
 alias gitpull='git pull --rebase'
 alias gitcomm='git commit -m'
+alias stashdirty='git stash -k'
