@@ -19,6 +19,7 @@ color zach
 "**********************************************************
 :command W w
 :command Q q
+:map Q <Nop>    "disable ex mode
 
 "***********************************************************
 " Editing
@@ -39,6 +40,9 @@ highlight ColorColumn ctermbg=darkgray
 
 set paste
 
+" set leader
+let mapleader = "\<Space>"
+
 " global swap directory
 silent !mkdir -p ~/.vim/swapfiles > /dev/null 2>&1
 set directory=~/.vim/swapfiles//
@@ -52,6 +56,18 @@ endwhile
 
 au BufNewFile,BufRead *.less set filetype=less
 
+"==== leader shortcuts ====
+nnoremap <Leader>w :w<CR>
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+map <Leader>s :e %:p:s,.h$,.X123X,:s,.cpp$,.hpp,:s,.X123X$,.cpp,<CR>
+map <leader>t :NERDTreeFind<cr>
+
+
 "***********************************************************
 " Language specific
 "***********************************************************
@@ -59,7 +75,7 @@ au BufNewFile,BufRead *.less set filetype=less
 " add doxygen support to all cpp and h files
 augroup project
     autocmd!
-    autocmd BufRead,BufNewFile *.h,*.cpp set filetype=cpp.doxygen
+    autocmd BufRead,BufNewFile *.h,*.cpp,*.hpp set filetype=cpp.doxygen
 augroup END
 
 " attempt to add headers to vim's path
@@ -67,6 +83,15 @@ if isdirectory('~/coffee/src/lib')
 	"let &path.=".,src/include,src/lib,,"
 	set path+=~/coffee/src/lib
 endif
+
+if isdirectory('~/projects/kappa/src/lib')
+	"let &path.=".,src/include,src/lib,,"
+	set path+=~/projects/kappa/src/lib
+endif
+
+
+autocmd BufNew,BufRead *.s setf nasm
+
 
 " set SConstruct and SConscript to python syntax
 autocmd BufNew,BufRead SConstruct setf python
@@ -79,6 +104,11 @@ autocmd BufRead,BufNewFile *.md setlocal spell
 " c++ error output highlighting
 au BufRead,BufNewFile *.cerr set filetype=myerror
 au Syntax myerror source $HOME/.vim/syntax/cerr.vim
+
+" Python indentation cases
+let g:pyindent_open_paren = '&sw * 2'
+let g:pyindent_nested_paren = '&sw'
+let g:pyindent_continue = '&sw * 2'
 
 "***********************************************************
 " Behavior
@@ -149,6 +179,8 @@ au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menuone,menu,longest,preview
 noremap <leader>[ <Esc>:lclose<CR>
 
+
+let g:gitgutter_max_signs=4096
 
 
 "***********************************************************

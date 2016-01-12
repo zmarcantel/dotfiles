@@ -15,6 +15,10 @@ if [ -d ~/.local/bin ]; then
     PATH=$PATH:~/.local/bin
 fi
 
+if [ -d ~/.local/bin/clion ]; then
+    PATH=$PATH:~/.local/bin/clion/bin
+fi
+
 export PATH=$PATH:.:~/.zmenv/scripts/
 
 ##
@@ -29,16 +33,9 @@ export EPOCH=~/coffee/src/lib/epochlabs
 ##
 
 # Go
-if hash go 2> /dev/null ; then
+if [ -e "/usr/local/go" ] ; then
   mkdir -p ~/go
-
-  if [ -e "/usr/local/go" ] ; then
-    export GOROOT=/usr/local/go
-  fi
-  if [ -e "/usr/lib/go" ] ; then
-    export GOROOT=/usr/lib/go
-  fi
-
   export GOPATH=~/go
+  export GOROOT=/usr/local/go
   export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 fi

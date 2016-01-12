@@ -1,7 +1,14 @@
 #!/bin/zsh
 
+LOCKIMAGE=/tmp/lockimage
+NASA_KEY="Nj8LCWAEmBJzKgdAzGNzoHhldasalCHWk4OEUN19"
+NASA_URL="https://api.nasa.gov/planetary/apod?concept_tags=False&hd=True&api_key=$NASA_KEY"
+
 lock() {
-  /bin/lock
+    #curl -s $NASA_URL | jq .url | xargs wget -O $LOCKIMAGE.jpg
+    #convert $LOCKIMAGE.jpg $LOCKIMAGE.png
+    #i3lock -i $LOCKIMAGE.png
+    /bin/lock
 }
 
 case "$1" in

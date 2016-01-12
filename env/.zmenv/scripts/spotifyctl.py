@@ -1,0 +1,1 @@
+/home/zach/.zmenv/scripts/spotifyctl/spotifyctl.py

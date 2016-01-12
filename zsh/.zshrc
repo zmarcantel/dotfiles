@@ -77,7 +77,23 @@ function precmd() {
 
     # return code of last command
     RPROMPT="%{$fg_bold[grey]%}[%?]%{$reset_color%} "
-    RPROMPT=$RIGHT
+    RPROMPT+=$RIGHT
+
+    SPOTIFY_INFO=$(spotifyctl.py --info)
+    SONG_NAME=$(echo $SPOTIFY_INFO | grep "xesam:title" | sed 's/xesam:title //')
+    SONG_ARTIST=$(echo $SPOTIFY_INFO | grep "xesam:artist" | sed 's/xesam:artist //' )
+
+    MAX_SONG_LENGTH=20
+    MAX_ARTIST_LENGTH=20
+
+    if [ ${#SONG_NAME} -gt $MAX_SONG_LENGTH ]; then
+        SONG_NAME=$(echo $SONG_NAME[0,$MAX_SONG_LENGTH] | sed 's/\s\+$//')"..."
+    fi
+    if [ ${#SONG_ARTIST} -gt $MAX_ARTIST_LENGTH ]; then
+        SONG_ARTIST=$(echo $SONG_ARTIST[0,$MAX_ARTIST_LENGTH] | sed 's/\s\+$//')"..."
+    fi
+
+    RPROMPT+=" [%{$fg_bold[blue]%}"$SONG_NAME"%{$reset_color%} %{$fg_bold[green]%}"$SONG_ARTIST"%{$reset_color%}]"
 }
 
 ##

@@ -57,3 +57,13 @@ stow {package}
 This symlinks the files into their correct place. Any changes to the files will change the files in this repo.
 
 When changes are made, simply commit the changes.
+
+
+Prerequisites
+=============
+
+### i3
+
+`i3` dependencies:
+
+* jq

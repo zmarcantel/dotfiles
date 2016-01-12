@@ -12,6 +12,8 @@ alias mkdir='mkdir -p'
 alias svim='sudo vim'
 alias psgrep='ps aux | grep'
 alias gnr='grep -nr'
+alias tfn='tail -f -n'
+alias t100='tail -n 100 -f'
 
 alias meminfo='free -m -l -t'   # free memory
 alias psmem='ps auxf | sort -r -k 4'   # processes sorted by memory usage
@@ -33,6 +35,8 @@ alias sshadd='sshadd.sh'
 ##
 ## Work aliases
 ##
+
+alias sclang='scons --clang'
 
 mc_ssh() {
     ssh eltest@mc$1.lab.epochlabs.com
@@ -108,6 +112,8 @@ mckillon_func() {
     done
 }
 alias mckillon='mckillon_func'
+
+alias inspect='$EDITOR out/latestvalidator'
 
 
 ##
