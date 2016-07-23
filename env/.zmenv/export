@@ -29,16 +29,15 @@ export EPOCH=~/coffee/src/lib/epochlabs
 ##
 
 # Go
-if hash go 2> /dev/null ; then
-  mkdir -p ~/go
-
-  if [ -e "/usr/local/go" ] ; then
-    export GOROOT=/usr/local/go
-  fi
-  if [ -e "/usr/lib/go" ] ; then
-    export GOROOT=/usr/lib/go
-  fi
-
+if [ -e "/usr/local/go" ] ; then
   export GOPATH=~/go
+  mkdir -p $GOPATH
+  export GOROOT=/usr/local/go
   export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+fi
+
+# Rust
+if [ -d "$HOME/.multirust" ] ; then
+  export PATH=$PATH:"/home/zach/.multirust/toolchains/nightly/cargo/bin"
+  export PATH=$PATH:"/home/zach/.multirust/toolchains/stable/cargo/bin"
 fi

@@ -14,6 +14,22 @@ set number
 set t_Co=256
 color zach
 
+
+"**********************************************************
+" Leader setup
+"**********************************************************
+
+" set leader to <Space>
+let mapleader = "\<Space>"
+
+" interact with system clipboard
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+
 "**********************************************************
 " Convenience aliases
 "**********************************************************
@@ -80,6 +96,9 @@ autocmd BufRead,BufNewFile *.md setlocal spell
 " c++ error output highlighting
 au BufRead,BufNewFile *.cerr set filetype=myerror
 au Syntax myerror source $HOME/.vim/syntax/cerr.vim
+
+" golang use goimports
+let g:go_fmt_command = "goimports"
 
 "***********************************************************
 " Behavior

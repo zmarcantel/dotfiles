@@ -28,6 +28,12 @@ alias .5='cd ../../../../..'
 
 alias xclip='xclip -selection c'
 
+alias sclang='scons --clang'
+
+alias backlow='echo 200 | sudo tee /sys/class/backlight/gmux_backlight/brightness'
+alias backmed='echo 400 | sudo tee /sys/class/backlight/gmux_backlight/brightness'
+alias backhigh='echo 1000 | sudo tee /sys/class/backlight/gmux_backlight/brightness'
+
 ##
 ## Arch Aliases
 ##
@@ -66,8 +72,8 @@ ghub_clone() {
 }
 alias ghclone='ghub_clone'
 
-alias gitco='git checkout'
-alias gitpom='git push origin master'
+alias gco='git checkout'
+alias gpom='git push origin master'
 alias mkbranch='git checkout -b'
-alias gitpull='git pull --rebase'
-alias gitcomm='git commit -m'
+alias gpull='git pull --rebase'
+alias gcomm='git commit -m'
